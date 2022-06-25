@@ -1,14 +1,11 @@
 package com.soldat.Contacts.controllers;
 
-import com.soldat.Contacts.entities.Person;
-import com.soldat.Contacts.repositopies.PersonRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.soldat.Contacts.entities.PersonEntity;
+import com.soldat.Contacts.exceptions.AlreadyExistException;
+import com.soldat.Contacts.exceptions.NotFoundException;
+import com.soldat.Contacts.services.PersonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * @author Ihor Soldatenko
@@ -16,60 +13,58 @@ import java.util.stream.Stream;
  */
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/persons")
 public class PersonController {
 
-    @Autowired
-    private PersonRepo repo;
+    private final PersonService service;
+
+    public PersonController(PersonService service) {
+        this.service = service;
+    }
 
     @PostMapping
-    public ResponseEntity<?> add (@RequestBody Person person){
-        try{
-            return ResponseEntity.ok(repo.save(person));
-        }catch (Exception ex){
-            return ResponseEntity.badRequest().body("Exception!!!");
+    public ResponseEntity<?> add(@RequestBody PersonEntity personEntity) {
+        try {
+            return ResponseEntity.ok(service.add(personEntity));
+        } catch (AlreadyExistException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage() + ex.getId());
         }
     }
 
-    @GetMapping ("/{personId}")
-    public ResponseEntity<?> get (@PathVariable long personId){
-        try{
-            return ResponseEntity.ok(repo.findById(personId));
-        }catch (Exception ex){
-            return ResponseEntity.badRequest().body("Exception!!!");
+    @PostMapping("/{personId}")
+    public ResponseEntity<?> edit(@RequestBody PersonEntity personEntity,
+                                  @PathVariable long personId) {
+        try {
+            return ResponseEntity.ok(service.edit(personId, personEntity));
+        } catch (NotFoundException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/{personId}")
+    public ResponseEntity<?> get(@PathVariable long personId) {
+        try {
+            return ResponseEntity.ok(service.getById(personId));
+        } catch (NotFoundException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
     @GetMapping
-    public ResponseEntity<?> getAll (){
-        try{
-            Iterable<Person> people = repo.findAll();
-            List<Person> all = new ArrayList<>();
-            people.forEach(all::add);
-            return ResponseEntity.ok(all);
-        }catch (Exception ex){
+    public ResponseEntity<?> getAll() {
+        try {
+            return ResponseEntity.ok(service.getAll());
+        } catch (Exception ex) {
             return ResponseEntity.badRequest().body("Exception!!!");
         }
     }
 
-    @DeleteMapping ("/{personId}")
-    public ResponseEntity<?> delete (@PathVariable long personId){
-        try{
-            repo.deleteById(personId);
-            return ResponseEntity.ok("Deleted");
-        }catch (Exception ex){
+    @DeleteMapping("/{personId}")
+    public ResponseEntity<?> delete(@PathVariable long personId) {
+        try {
+            return ResponseEntity.ok(service.delete(personId) + " Deleted");
+        } catch (NotFoundException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
-
-    @DeleteMapping
-    public ResponseEntity<?> deleteAll (){
-        try{
-            repo.deleteAll();
-            return ResponseEntity.ok("Deleted");
-        }catch (Exception ex){
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        }
-    }
-
 }
