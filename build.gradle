@@ -20,6 +20,9 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 //	thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	// https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring4
+	implementation 'org.thymeleaf:thymeleaf-spring4:3.0.15.RELEASE'
+
 //	SQLite
 	// https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
 	implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
