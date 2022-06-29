@@ -6,7 +6,7 @@
 </head>
 
 <body class="d-flex flex-column h-100">
-<header th:insert="fragments/header::header"></header>
+<header th:insert="fragments/header::header('1')"></header>
 <main class="flex-shrink-0">
     <div class="container-sm">
         <div class="row">
@@ -29,34 +29,14 @@
             </div>
             <div class="col-8">
                 <div id="contact"></div>
-                <!--                <div class="card text-center">-->
-                <!--                    <div id="name_person" class="card-header fs-2">-->
-                <!--                        Name-->
-                <!--                    </div>-->
-                <!--                    <div class="card-body">-->
-                <!--                        <h5 class="card-title">Phone numbers</h5>-->
-                <!--                        <ul id="phones_person">-->
-
-                <!--                        </ul>-->
-                <!--                        <h5 class="card-title">E-mails</h5>-->
-                <!--                        <ul id="emails_person">-->
-
-                <!--                        </ul>-->
-                <!--                    </div>-->
-                <!--                    <div id="note_person" class="card-footer text-muted">-->
-
-                <!--                    </div>-->
-                <!--                </div>-->
             </div>
         </div>
     </div>
 </main>
-<div class="collapse" id="collapseExample">
 
-</div>
 <footer class="footer fixed-bottom mt-auto py-3 bg-light">
     <div class="container">
-        <span class="text-muted">Web app "Contacts" by Ihor Soldatenko</span>
+        <span class="text-muted">RESTFUL WEB application "Contacts" by Ihor Soldatenko</span>
     </div>
 </footer>
 <script th:src="@{../../js/contact-AJAX.js}"></script>

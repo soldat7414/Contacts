@@ -1,4 +1,4 @@
-<header th:fragment="header" class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+<header th:fragment="header(link)" class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
         <svg class="bi me-2" width="40" height="32">
             <use xlink:href="#bootstrap"></use>
@@ -10,8 +10,13 @@
     </a>
 
     <ul class="nav nav-pills">
-        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Contacts</a></li>
+<!--        <li class="nav-item nav-item-dark"><a href="#" class="nav-link active" aria-current="page">Contacts</a></li>-->
+        <li class="nav-item"><a href="/" class="btn btn-outline-dark"
+                                th:class="${link}==1? 'btn btn-outline-dark active':'btn btn-outline-dark'"
+                                aria-current="page">Contacts</a></li>
 
-        <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+        <li class="nav-item"><a href="/about"
+                                class="btn btn-outline-dark"
+                                th:class="${link}==2? 'btn btn-outline-dark active mx-1':'btn btn-outline-dark mx-1'">About</a></li>
     </ul>
 </header>
